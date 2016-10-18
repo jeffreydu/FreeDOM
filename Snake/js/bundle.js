@@ -47,7 +47,7 @@
 	const View = __webpack_require__(1);
 	
 	$(function () {
-	  const rootEl = $('.snake-game');
+	  const rootEl = $('.game');
 	  new View(rootEl);
 	});
 
@@ -56,45 +56,66 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {const Board = __webpack_require__(3);
+	const Board = __webpack_require__(3);
 	const DOMNodeCollection = __webpack_require__(6);
 	
 	class View {
 	  constructor($el) {
 	    this.$el = $el;
-	    this.board = Board.new(15);
-	    // this.handleKeyDown = this.handleKeyDown.bind(this);
+	    this.board = new Board(15);
+	    this.handleKeyDown = this.handleKeyDown.bind(this);
+	    this.step = this.step.bind(this);
 	
-	    $(window).on("keydown", this.handleKeyDown.bind(this));
+	    this.generateGrid();
+	
+	    window.setInterval(this.step, 500);
+	
+	    $(window).on("keydown", this.handleKeyDown);
 	
 	  }
 	
 	  handleKeyDown(e) {
-	    console.log('abc');
+	    if (View.KEYCODES[event.keyCode]) {
+	      this.board.snake.turn(View.KEYCODES[event.keyCode]);
+	    }
+	  }
+	
+	  step() {
+	    this.board.snake.move();
+	    this.render();
+	  }
+	
+	  generateGrid() {
+	    let board = "";
+	    for (let i = 0; i < this.board.size; i++) {
+	      board += "<ul>";
+	      for (let j = 0; j < this.board.size; j++) {
+	        board += "<li> </li>";
+	      }
+	      board += "</ul>";
+	    }
+	
+	    this.$el.html(board);
+	    this.$li = this.$el.find("li");
+	  }
+	
+	  render() {
+	
 	  }
 	}
 	
-	module.export = View;
+	View.KEYCODES = {
+	  37: "W",
+	  38: "N",
+	  39: "E",
+	  40: "S"
+	};
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
+	module.exports = View;
 
 
 /***/ },
+/* 2 */,
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -105,6 +126,32 @@
 	    this.size = size;
 	    this.snake = new Snake(this);
 	  }
+	
+	  emptyGrid() {
+	    const grid = [];
+	
+	    for (let i = 0; i < this.size; i++) {
+	      const row = [];
+	      for (let j = 0; j < this.size; j++) {
+	        row.push("");
+	      }
+	      grid.push(row);
+	    }
+	    return grid;
+	  }
+	
+	  validPosition(pos) {
+	    return (pos.x >= 0 && pos.x <= this.size &&
+	            pos.y >= 0 && pos.y <= this.size);
+	  }
+	
+	  render() {
+	    const grid = this.emptyGrid();
+	    this.snake.segments.forEach((segment) => {
+	      grid[segment.x][segment.y] = Snake.BODY;
+	    });
+	    grid.map( row => row.join("") ).join("\n");
+	  }
 	}
 	
 	module.exports = Board;
@@ -114,7 +161,7 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {const Coord = __webpack_require__(5);
+	const Coord = __webpack_require__(5);
 	
 	class Snake {
 	  constructor(board) {
@@ -131,6 +178,7 @@
 	
 	  move() {
 	    this.segments.push(this.head().plus(Snake.MOVES[this.direction]));
+	    this.segments.shift();
 	  }
 	
 	  turn(dir) {
@@ -157,9 +205,10 @@
 	  "W": "E"
 	};
 	
-	module.export = Snake;
+	Snake.BODY = "X";
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
+	module.exports = Snake;
+
 
 /***/ },
 /* 5 */

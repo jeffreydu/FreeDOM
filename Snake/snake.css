@@ -1,0 +1,34 @@
+html, body, figure, figcaption, ul, li, h1 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  text-align: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+h1 {
+  text-align: center;
+}
+
+.game-wrapper {
+  position: fixed;
+  left: 50%;
+}
+
+figure {
+  display: inline-block;
+  border: 5px solid #ccc;
+  position: relative;
+  right: 50%;
+}
+
+li {
+  float: left;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+}

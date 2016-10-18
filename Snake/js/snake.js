@@ -15,6 +15,7 @@ class Snake {
 
   move() {
     this.segments.push(this.head().plus(Snake.MOVES[this.direction]));
+    this.segments.shift();
   }
 
   turn(dir) {
@@ -41,4 +42,6 @@ Snake.OPPOSITES = {
   "W": "E"
 };
 
-module.export = Snake;
+Snake.BODY = "X";
+
+module.exports = Snake;

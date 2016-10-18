@@ -8,31 +8,31 @@ FreeDOM offers a variety of methods that the user can use in the browser console
 
     before:
     ```html
-      <div> no class</div>
-      <div> classless</div>
-      <div> give me a class!</div>
+    <div> no class</div>
+    <div> classless</div>
+    <div> give me a class!</div>
     ```
 
     ```javascript
-      div = $l('div');
-      div.addClass('green-background');
+    div = $l('div');
+    div.addClass('green-background');
     ```
 
     after:
 
     ```html
-      <div class="green-background"> yay!</div>
-      <div class="green-background"> i'm green</div>
-      <div class="green-background"> in my background!</div>
+    <div class="green-background"> yay!</div>
+    <div class="green-background"> i'm green</div>
+    <div class="green-background"> in my background!</div>
     ```
 
     _backend:_
 
     ```javascript
     addClass (newClass) {
-      this.nodes.forEach((el) => {
-        el.classList.add(newClass);
-      });
+        this.nodes.forEach((el) => {
+          el.classList.add(newClass);
+        });
     }
     ```
 
@@ -41,22 +41,22 @@ FreeDOM offers a variety of methods that the user can use in the browser console
     before:
 
     ```html
-      <div> goodbye div! </div>
-      <div> extra div! </div>
-      <div> unnecessary div! </div>
-      <p> finally something worth keeping </p>
-      <div> go away div! </div>
+    <div> goodbye div! </div>
+    <div> extra div! </div>
+    <div> unnecessary div! </div>
+    <p> finally something worth keeping </p>
+    <div> go away div! </div>
     ```
 
     ```javascript
-      div = $l('div');
-      div.remove();
+    div = $l('div');
+    div.remove();
     ```
 
     after:
 
     ```html
-      <p> finally something worth keeping </p>
+    <p> finally something worth keeping </p>
     ```
 
   0. perform different actions using FreeDOM's versatile $l function
