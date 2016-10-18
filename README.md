@@ -36,7 +36,7 @@ FreeDOM offers a variety of methods that the user can use in the browser console
     }
     ```
 
-  0. remove all elements of a single type from a page
+  0. remove __all__ elements of a single type from a page
 
     before:
 
@@ -59,7 +59,7 @@ FreeDOM offers a variety of methods that the user can use in the browser console
       <p> finally something worth keeping </p>
     ```
 
-  0. perform different methods using FreeDOM's versatile $l method
+  0. perform different actions using FreeDOM's versatile $l function
 
     _backend:_
 
