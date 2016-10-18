@@ -5,6 +5,7 @@
 FreeDOM offers a variety of methods that the user can use in the browser console in order to inspect elements. For example, users can:
 
   0. add classes to a group of DOM elements using the addClass method.
+
     before:
     ```html
       <div> no class</div>
@@ -36,6 +37,7 @@ FreeDOM offers a variety of methods that the user can use in the browser console
     ```
 
   0. remove all elements of a single type from a page
+
     before:
 
     ```html
@@ -58,7 +60,7 @@ FreeDOM offers a variety of methods that the user can use in the browser console
     ```
 
   0. perform different methods using FreeDOM's versatile $l method
-  
+
     _backend:_
 
     ```javascript
