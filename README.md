@@ -25,7 +25,7 @@ FreeDOM offers a variety of methods that the user can use in the browser console
       <div class="green-background"> in my background!</div>
     ```
 
-    _backend_
+    _backend:_
 
     ```javascript
     addClass (newClass) {
@@ -58,8 +58,9 @@ FreeDOM offers a variety of methods that the user can use in the browser console
     ```
 
   0. perform different methods using FreeDOM's versatile $l method
-    _backend_
-    
+  
+    _backend:_
+
     ```javascript
       function $l(selector) {
         if (selector instanceof Function) {
