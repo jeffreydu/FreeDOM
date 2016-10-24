@@ -17,8 +17,8 @@ class View {
   }
 
   handleKeyDown(e) {
-    if (View.KEYCODES[event.keyCode]) {
-      this.board.snake.turn(View.KEYCODES[event.keyCode]);
+    if (View.KEYCODES[e.keyCode]) {
+      this.board.snake.turn(View.KEYCODES[e.keyCode]);
     }
   }
 
@@ -32,7 +32,7 @@ class View {
     for (let i = 0; i < this.board.size; i++) {
       board += "<ul>";
       for (let j = 0; j < this.board.size; j++) {
-        board += "<li> </li>";
+        board += "<li></li>";
       }
       board += "</ul>";
     }

@@ -56,8 +56,8 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Board = __webpack_require__(3);
-	const DOMNodeCollection = __webpack_require__(6);
+	const Board = __webpack_require__(2);
+	const DOMNodeCollection = __webpack_require__(5);
 	
 	class View {
 	  constructor($el) {
@@ -90,7 +90,7 @@
 	    for (let i = 0; i < this.board.size; i++) {
 	      board += "<ul>";
 	      for (let j = 0; j < this.board.size; j++) {
-	        board += "<li> </li>";
+	        board += "<li></li>";
 	      }
 	      board += "</ul>";
 	    }
@@ -115,11 +115,10 @@
 
 
 /***/ },
-/* 2 */,
-/* 3 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Snake = __webpack_require__(4);
+	const Snake = __webpack_require__(3);
 	
 	class Board {
 	  constructor(size) {
@@ -158,10 +157,10 @@
 
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Coord = __webpack_require__(5);
+	const Coord = __webpack_require__(4);
 	
 	class Snake {
 	  constructor(board) {
@@ -211,7 +210,7 @@
 
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports) {
 
 	class Coord {
@@ -234,7 +233,7 @@
 
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	class DOMNodeCollection {
