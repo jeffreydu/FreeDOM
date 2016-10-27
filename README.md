@@ -2,31 +2,40 @@
 
 `FreeDOM` is a JavaScript Document Object Model (DOM) Manipulation Library that simplifies accessing properties of DOM elements on a page for users.
 
+How to use FreeDOM:
+  0. Download the lib folder
+  0. Be sure to include the script tag referring to the freedom.js file in the head of your `HTML` file.
+  If you are using webpack, make sure that you put this tag above the bundle.js one!
+    For example:
+    ```html
+      <script src="path/to/freedom.js"></script>
+      <script src="./js/bundle.js"></script>
+    ```
 FreeDOM offers a variety of methods that the user can use in the browser console in order to inspect elements. For example, users can:
 
   0. add classes to a group of DOM elements using the addClass method.
 
     before:
     ```html
-    <div> no class</div>
-    <div> classless</div>
-    <div> give me a class!</div>
+    <div> no class </div>
+    <div> classless </div>
+    <div> give me a class! </div>
     ```
 
     ```javascript
-    div = $l('div');
+    div = $j('div');
     div.addClass('green-background');
     ```
 
     after:
 
     ```html
-    <div class="green-background"> yay!</div>
-    <div class="green-background"> i'm green</div>
-    <div class="green-background"> in my background!</div>
+    <div class="green-background"> yay! </div>
+    <div class="green-background"> i'm green </div>
+    <div class="green-background"> in my background! </div>
     ```
 
-    _backend:_
+    _How did this work?_
 
     ```javascript
     addClass (newClass) {
@@ -49,7 +58,7 @@ FreeDOM offers a variety of methods that the user can use in the browser console
     ```
 
     ```javascript
-    div = $l('div');
+    div = $j('div');
     div.remove();
     ```
 
@@ -61,24 +70,28 @@ FreeDOM offers a variety of methods that the user can use in the browser console
 
   0. perform different actions using FreeDOM's versatile $l function
 
-    _backend:_
+    _$j responds to different inputs that you give it_
 
     ```javascript
-      function $l(selector) {
-        if (selector instanceof Function) {
-          if (!ready){
-            queue.push(selector);
-          } else {
-            selector();
-          }
-        }
-        else if (selector instanceof HTMLElement) {
-          return new DOMNodeCollection([selector]);
-        }
-        else {
-          let selected = document.querySelectorAll(selector);
-          let arraySelected = Array.from(selected);
-          return new DOMNodeCollection(arraySelected);
-        }
+    window.$j = (selector) => {
+  	  if (selector instanceof Function) {
+  	    if (!ready){ // putting in a function will add it to the queue of actions to perform
+  	      queue.push(selector);
+  	    } else {
+  	      selector();
+  	    }
+  	  }
+  	  else if (selector instanceof HTMLElement) {
+  	    return new DOMNodeCollection([selector]);
+  	  }
+  		else if (selector === window) {
+  			return new DOMNodeCollection([window]);
+  		}
+  	  else {
+  	    let selected = document.querySelectorAll(selector);
+  	    let arraySelected = Array.from(selected);
+         // giving a string as an input will return a collection of all elements of that type
+  	    return new DOMNodeCollection(arraySelected); // $j('li') returns a collection of all <li> items on the page.
       }
+  	};
     ```

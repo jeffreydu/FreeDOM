@@ -46,8 +46,8 @@
 
 	const View = __webpack_require__(1);
 	
-	$(function () {
-	  const rootEl = $('.game');
+	$j(function () {
+	  const rootEl = $j('.game');
 	  new View(rootEl);
 	});
 
@@ -67,22 +67,32 @@
 	    this.step = this.step.bind(this);
 	
 	    this.generateGrid();
+	    this.intervalId = window.setInterval(
+	      this.step.bind(this),
+	      View.STEP_TIME
+	    );
 	
 	    window.setInterval(this.step, 500);
 	
-	    $(window).on("keydown", this.handleKeyDown);
+	    $j(window).on("keydown", this.handleKeyDown);
 	
 	  }
 	
 	  handleKeyDown(e) {
-	    if (View.KEYCODES[event.keyCode]) {
-	      this.board.snake.turn(View.KEYCODES[event.keyCode]);
+	
+	    if (View.KEYCODES[e.keyCode]) {
+	      this.board.snake.turn(View.KEYCODES[e.keyCode]);
 	    }
 	  }
 	
 	  step() {
-	    this.board.snake.move();
-	    this.render();
+	    if (this.board.snake.segments.length > 0) {
+	     this.board.snake.move();
+	     this.render();
+	    } else {
+	     alert("You lose!");
+	     window.clearInterval(this.intervalId);
+	    }
 	  }
 	
 	  generateGrid() {
@@ -100,9 +110,19 @@
 	  }
 	
 	  render() {
+	    this.updateClasses(this.board.snake.segments, 'snake');
+	  }
 	
+	  updateClasses(coords, className) {
+	    this.$li.removeClass(className);
+	    coords.forEach( coord => {
+	      const flattened = coord.x * this.board.size + coord.y;
+	      
+	    });
 	  }
 	}
+	
+	View.STEP_TIME = 100;
 	
 	View.KEYCODES = {
 	  37: "W",
@@ -132,7 +152,7 @@
 	    for (let i = 0; i < this.size; i++) {
 	      const row = [];
 	      for (let j = 0; j < this.size; j++) {
-	        row.push("");
+	        row.push(Board.BLANK_SYMBOL);
 	      }
 	      grid.push(row);
 	    }
@@ -146,12 +166,16 @@
 	
 	  render() {
 	    const grid = this.emptyGrid();
+	
 	    this.snake.segments.forEach((segment) => {
 	      grid[segment.x][segment.y] = Snake.BODY;
 	    });
+	    
 	    grid.map( row => row.join("") ).join("\n");
 	  }
 	}
+	
+	Board.BLANK_SYMBOL = ".";
 	
 	module.exports = Board;
 
@@ -166,9 +190,10 @@
 	  constructor(board) {
 	    this.direction = "N";
 	    this.board = board;
-	    const origin = new Coord(Math.floor(board.size/2), Math.floor(board.size/2));
+	    const origin = new Coord(Math.floor(board.size / 2), Math.floor(board.size / 2));
 	    this.segments = [origin];
 	    this.growth = 0;
+	    this.turning = false;
 	  }
 	
 	  head() {
@@ -177,7 +202,22 @@
 	
 	  move() {
 	    this.segments.push(this.head().plus(Snake.MOVES[this.direction]));
-	    this.segments.shift();
+	    this.turning = false;
+	
+	    // if (this.eatApple()) {
+	    //   this.board.apple.replace();
+	    // }
+	
+	    // if not growing, remove tail segment
+	    if (this.growTurns > 0) {
+	      this.growTurns -= 1;
+	    } else {
+	      this.segments.shift();
+	    }
+	
+	    if (!this.isValid()) {
+	      this.segments = [];
+	    }
 	  }
 	
 	  turn(dir) {
@@ -187,6 +227,33 @@
 	      this.direction = dir;
 	    }
 	  }
+	
+	  isOccupying(array) {
+	    let result = false;
+	    this.segments.forEach( segment => {
+	      if (segment.x === array[0] && segment.y === array[1]) {
+	        result = true;
+	        return result;
+	      }
+	    });
+	    return result;
+	  }
+	
+	  isValid() {
+	  const head = this.head();
+	
+	  if (!this.board.validPosition(this.head())) {
+	    return false;
+	  }
+	
+	  for (let i = 0; i < this.segments.length - 1; i++) {
+	    if (this.segments[i].equals(head)) {
+	      return false; //snake eating itself
+	    }
+	  }
+	
+	  return true;
+	}
 	
 	}
 	
@@ -326,6 +393,10 @@
 	    this.nodes.forEach((el) => {
 	      el.parentNode.removeChild(el);
 	    });
+	  }
+	
+	  idx(index) {
+	    return this.nodes[index];
 	  }
 	
 	  on (occurence, callback) {

@@ -1,6 +1,6 @@
 const View = require('./snake-view');
 
-$(function () {
-  const rootEl = $('.game');
+$j(function () {
+  const rootEl = $j('.game');
   new View(rootEl);
 });

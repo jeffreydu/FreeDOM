@@ -12,7 +12,7 @@ class Board {
     for (let i = 0; i < this.size; i++) {
       const row = [];
       for (let j = 0; j < this.size; j++) {
-        row.push("");
+        row.push(Board.BLANK_SYMBOL);
       }
       grid.push(row);
     }
@@ -26,11 +26,15 @@ class Board {
 
   render() {
     const grid = this.emptyGrid();
+
     this.snake.segments.forEach((segment) => {
       grid[segment.x][segment.y] = Snake.BODY;
     });
+    
     grid.map( row => row.join("") ).join("\n");
   }
 }
+
+Board.BLANK_SYMBOL = ".";
 
 module.exports = Board;

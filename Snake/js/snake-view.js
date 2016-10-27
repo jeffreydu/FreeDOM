@@ -9,22 +9,32 @@ class View {
     this.step = this.step.bind(this);
 
     this.generateGrid();
+    this.intervalId = window.setInterval(
+      this.step.bind(this),
+      View.STEP_TIME
+    );
 
     window.setInterval(this.step, 500);
 
-    $(window).on("keydown", this.handleKeyDown);
+    $j(window).on("keydown", this.handleKeyDown);
 
   }
 
   handleKeyDown(e) {
+
     if (View.KEYCODES[e.keyCode]) {
       this.board.snake.turn(View.KEYCODES[e.keyCode]);
     }
   }
 
   step() {
-    this.board.snake.move();
-    this.render();
+    if (this.board.snake.segments.length > 0) {
+     this.board.snake.move();
+     this.render();
+    } else {
+     alert("You lose!");
+     window.clearInterval(this.intervalId);
+    }
   }
 
   generateGrid() {
@@ -42,9 +52,19 @@ class View {
   }
 
   render() {
+    this.updateClasses(this.board.snake.segments, 'snake');
+  }
 
+  updateClasses(coords, className) {
+    this.$li.removeClass(className);
+    coords.forEach( coord => {
+      const flattened = coord.x * this.board.size + coord.y;
+      
+    });
   }
 }
+
+View.STEP_TIME = 100;
 
 View.KEYCODES = {
   37: "W",
