@@ -69,7 +69,7 @@ FreeDOM offers a variety of methods that the user can use in the browser console
     <p> finally something worth keeping </p>
     ```
 
-  * perform different actions using FreeDOM's versatile $l function
+  * perform different actions using FreeDOM's versatile $j function
 
     _$j responds to different inputs that you give it_
 
